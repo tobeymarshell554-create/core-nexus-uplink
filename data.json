@@ -1,19 +1,15 @@
 {
-  "system": {
-    "node_id": "XEON-GATEWAY-ALPHA",
-    "status": "OPERATIONAL",
-    "uplink_protocol": "v4.6_SHADOW",
-    "global_auth": true
+  "status": "STABLE",
+  "node_id": "XEON_CORE_01",
+  "metrics": {
+    "cpu": 42,
+    "temp": 38,
+    "ram": "5.4GB",
+    "latency": "15ms"
   },
-  "telemetry": {
-    "cpu_load": 34,
-    "thermal_index": 41,
-    "net_latency": "18ms",
-    "ram_allocated": "8.4GB"
-  },
-  "nexus_modules": [
-    {"id": "mod_01", "label": "ENCRYPTION_LAYER", "state": "ACTIVE"},
-    {"id": "mod_02", "label": "GHOST_SHELL", "state": "STANDBY"}
-  ],
-  "timestamp": "2026-03-24T04:28:00Z"
+  "nexus": {
+    "active_protocol": "SHADOW_MESH_v4.6",
+    "auth_level": "S-TIER",
+    "last_sync": "2026-03-24T11:30:00Z"
+  }
 }
