@@ -1,15 +1,19 @@
 {
-  "status": "STABLE",
-  "node_id": "XEON_CORE_01",
-  "metrics": {
-    "cpu": 42,
-    "temp": 38,
-    "ram": "5.4GB",
-    "latency": "15ms"
+  "system": {
+    "device": "SM-S926B",
+    "protocol": "XEON_4.6",
+    "status": "STABLE_UPLINK",
+    "last_sync": "2026-03-24T13:07:40Z"
   },
-  "nexus": {
-    "active_protocol": "SHADOW_MESH_v4.6",
-    "auth_level": "S-TIER",
-    "last_sync": "2026-03-24T11:30:00Z"
+  "metrics": {
+    "cpu": 42.5,
+    "temp": 39,
+    "latency": 18,
+    "gpu_util": 12,
+    "memory_usage": "4.2GB"
+  },
+  "authority_layer": {
+    "handshake_code": "0x554_XEON",
+    "integrity_status": "VERIFIED"
   }
 }
