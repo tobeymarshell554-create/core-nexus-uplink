@@ -55,7 +55,6 @@
         }
         .core-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
-        /* HARDWARE WIDGET */
         .hw-widget {
             position: absolute; right: 40px; top: 100px;
             width: 200px; padding: 20px; border-left: 2px solid var(--jarvis-cyan);
@@ -65,7 +64,6 @@
         .hw-key { opacity: 0.5; text-transform: uppercase; }
         .hw-val { color: var(--jarvis-cyan); font-family: monospace; font-weight: bold; }
 
-        /* VICTORIA INTEGRITY MONITOR */
         .vic-monitor {
             position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%);
             width: 320px; text-align: center;
@@ -86,7 +84,6 @@
                 <span style="font-size: 9px; opacity: 0.4; text-transform: uppercase;">XEON-AUTHORITY-LAYER // SM-S926B</span>
             </div>
         </div>
-        
         <div style="text-align: right;">
             <div class="clock-time" id="clock-time">00:00:00</div>
             <div class="clock-date" id="clock-date">LOADING...</div>
@@ -103,83 +100,66 @@
         </div>
 
         <div class="hw-widget">
-            <div class="hw-row"><span class="hw-key">CPU Utilization</span><span class="hw-val" id="cpu-load">0.0%</span></div>
-            <div class="hw-row"><span class="hw-key">Core Temperature</span><span class="hw-val" id="cpu-temp">0°C</span></div>
-            <div class="hw-row"><span class="hw-key">Network Latency</span><span class="hw-val" id="net-latency">0ms</span></div>
-            <div class="hw-row" style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); pt-2;"><span class="hw-key">Protocol</span><span class="hw-val">XEON_4.6</span></div>
+            <div class="hw-row"><span class="hw-key">CPU Load</span><span class="hw-val" id="cpu-load">0.0%</span></div>
+            <div class="hw-row"><span class="hw-key">Temp</span><span class="hw-val" id="cpu-temp">0°C</span></div>
+            <div class="hw-row"><span class="hw-key">Latency</span><span class="hw-val" id="net-latency">0ms</span></div>
         </div>
 
         <div class="vic-monitor">
-            <div class="vic-status" id="vic-status">UPLINK_PENDING</div>
-            <div class="vic-bar-track"><div class="vic-bar-fill" id="vic-bar"></div></div>
+            <div id="vic-status" class="vic-status">UPLINK_PENDING</div>
+            <div class="vic-bar-track"><div id="vic-bar" class="vic-bar-fill"></div></div>
         </div>
     </main>
 
     <script>
         (function boot() {
-            // Clock Logic
+            // Configuration: Target your raw data file directly
+            const DATA_URL = "https://raw.githubusercontent.com/tobeymarshall554-create/core-nexus-uplink/main/data.json";
+            
+            // Core Animation Vars
+            const canvas = document.getElementById('core-plasma');
+            const ctx = canvas.getContext('2d');
+            let coreSpeed = 0.015;
+            let time = 0;
+
+            // 1. Clock Logic
             setInterval(() => {
                 const now = new Date();
                 document.getElementById('clock-time').textContent = now.toLocaleTimeString('en-US', { hour12: false });
                 document.getElementById('clock-date').textContent = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
             }, 1000);
 
-            // LIVE XEON HANDSHAKE & STREAMING
-            async function initiateLiveLink() {
-                const DATA_URL = "https://raw.githubusercontent.com/tobeymarshall554-create/core-nexus-uplink/refs/heads/main/data.json";
-                const statusEl = document.getElementById('vic-status');
-                const barEl = document.getElementById('vic-bar');
-                const coreEl = document.getElementById('core-status');
-
-                // Visual Handshake Sequence
-                const phases = [
-                    { msg: "SENDING_SYNC_REQUEST", p: 30 },
-                    { msg: "AUTHORITY_GRANTED", p: 65 },
-                    { msg: "ESTABLISHING_DATA_STREAM", p: 100 }
-                ];
-
-                for (let phase of phases) {
-                    statusEl.textContent = phase.msg;
-                    barEl.style.width = phase.p + "%";
-                    await new Promise(r => setTimeout(r, 700));
-                }
-
-                coreEl.textContent = "CONNECTED // STABLE";
-                statusEl.textContent = "XEON_POWER: ACTIVE";
-
-                // Start Live Fetching
-                setInterval(async () => {
-                    try {
-                        const response = await fetch(DATA_URL + "?cache=" + Date.now()); // Prevent caching
-                        const data = await response.json();
-                        
-                        document.getElementById('cpu-load').textContent = data.metrics.cpu + "%";
-                        document.getElementById('cpu-temp').textContent = data.metrics.temp + "°C";
-                        document.getElementById('net-latency').textContent = data.metrics.latency + "ms";
-                        
-                        // Physics-based Core response
-                        coreSpeed = 0.01 + (data.metrics.cpu / 1200);
-                        console.log("XEON Uplink Heartbeat: OK");
-                    } catch (e) {
-                        statusEl.textContent = "RECONNECTING...";
-                        console.error("Sync Failure:", e);
+            // 2. High-Speed XEON Sync Logic
+            async function syncXeon() {
+                try {
+                    // FAST PULL: Appending a timestamp (?t=...) forces GitHub to bypass cache
+                    const response = await fetch(`${DATA_URL}?t=${new Date().getTime()}`);
+                    const data = await response.json();
+                    
+                    document.getElementById('cpu-load').textContent = data.metrics.cpu + "%";
+                    document.getElementById('cpu-temp').textContent = data.metrics.temp + "°C";
+                    document.getElementById('net-latency').textContent = data.metrics.latency + "ms";
+                    
+                    // Link Visual Core Speed to Real CPU Utilization
+                    coreSpeed = 0.01 + (data.metrics.cpu / 1000);
+                    
+                    if(document.getElementById('vic-status').textContent !== "ACTIVE") {
+                        document.getElementById('vic-status').textContent = "ACTIVE";
+                        document.getElementById('vic-bar').style.width = "100%";
+                        document.getElementById('core-status').textContent = "STABLE";
                     }
-                }, 4000);
+                } catch (e) {
+                    document.getElementById('vic-status').textContent = "RECONNECTING...";
+                }
             }
 
-            // Plasma Core Rendering
-            const canvas = document.getElementById('core-plasma');
-            const ctx = canvas.getContext('2d');
-            let coreSpeed = 0.015;
-            let time = 0;
-
+            // 3. Plasma Core Animation
             function draw() {
                 const w = canvas.width = 350;
                 const h = canvas.height = 350;
                 const cx = w/2, cy = h/2;
                 ctx.clearRect(0,0,w,h);
                 
-                // Pulsing Center Glow
                 const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 80);
                 grad.addColorStop(0, 'rgba(0, 251, 255, 0.7)');
                 grad.addColorStop(1, 'rgba(0, 251, 255, 0)');
@@ -188,21 +168,13 @@
                 ctx.arc(cx, cy, 65 + Math.sin(time*2)*8, 0, Math.PI*2);
                 ctx.fill();
 
-                // Rotating Architecture Rings
-                ctx.strokeStyle = 'rgba(0, 251, 255, 0.25)';
-                ctx.lineWidth = 1.5;
-                for(let i=0; i<4; i++) {
-                    ctx.beginPath();
-                    ctx.arc(cx, cy, 90 + i*15, time * (i+0.5), time * (i+0.5) + (Math.PI * 1.2));
-                    ctx.stroke();
-                }
-
                 time += coreSpeed;
                 requestAnimationFrame(draw);
             }
 
             draw();
-            initiateLiveLink();
+            syncXeon();
+            setInterval(syncXeon, 2000); // 2-second high-speed sync
         })();
     </script>
 </body>
