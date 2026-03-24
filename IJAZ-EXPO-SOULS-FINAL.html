@@ -50,27 +50,27 @@
         main { height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; position: relative; }
         
         .core-container {
-            position: relative; width: 350px; height: 350px;
+            position: relative; width: 400px; height: 400px;
             display: flex; align-items: center; justify-content: center;
         }
         .core-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
         .hw-widget {
-            position: absolute; right: 40px; top: 100px;
-            width: 200px; padding: 20px; border-left: 2px solid var(--jarvis-cyan);
-            background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+            position: absolute; right: 60px; top: 120px;
+            width: 220px; padding: 25px; border-left: 2px solid var(--jarvis-cyan);
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(15px);
         }
-        .hw-row { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 10px; letter-spacing: 1px; }
+        .hw-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 12px; letter-spacing: 1px; }
         .hw-key { opacity: 0.5; text-transform: uppercase; }
         .hw-val { color: var(--jarvis-cyan); font-family: monospace; font-weight: bold; }
 
         .vic-monitor {
-            position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%);
-            width: 320px; text-align: center;
+            position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
+            width: 350px; text-align: center;
         }
-        .vic-status { font-family: 'Orbitron'; font-size: 9px; letter-spacing: 0.2em; color: var(--jarvis-cyan); margin-bottom: 10px; }
-        .vic-bar-track { height: 2px; background: rgba(255,255,255,0.05); overflow: hidden; position: relative; }
-        .vic-bar-fill { height: 100%; width: 0%; background: var(--jarvis-cyan); box-shadow: 0 0 15px var(--jarvis-cyan); transition: width 0.5s ease; }
+        .vic-status { font-family: 'Orbitron'; font-size: 10px; color: var(--jarvis-cyan); margin-bottom: 12px; letter-spacing: 2px; }
+        .vic-bar-track { height: 2px; background: rgba(255,255,255,0.05); overflow: hidden; }
+        .vic-bar-fill { height: 100%; width: 0%; background: var(--jarvis-cyan); box-shadow: 0 0 20px var(--jarvis-cyan); transition: width 0.4s ease; }
     </style>
 </head>
 <body>
@@ -80,8 +80,8 @@
         <div style="display: flex; align-items: center;">
             <div class="header-logo-diamond"><span>IJAZ</span></div>
             <div style="margin-left: 1.5rem;">
-                <span style="display: block; font-family: 'Orbitron'; font-size: 12px; letter-spacing: 0.2em; color: var(--jarvis-cyan);">TRANSPARENT ARCHITECTURE</span>
-                <span style="font-size: 9px; opacity: 0.4; text-transform: uppercase;">XEON-AUTHORITY-LAYER // SM-S926B</span>
+                <span style="display: block; font-family: 'Orbitron'; font-size: 13px; letter-spacing: 0.25em; color: var(--jarvis-cyan);">TRANSPARENT ARCHITECTURE</span>
+                <span style="font-size: 10px; opacity: 0.4; text-transform: uppercase;">XEON-AUTHORITY-LAYER // DESKTOP-UPLINK</span>
             </div>
         </div>
         <div style="text-align: right;">
@@ -94,15 +94,15 @@
         <div class="core-container">
             <canvas id="core-plasma" class="core-canvas"></canvas>
             <div style="position: absolute; bottom: -40px; text-align: center;">
-                <span style="font-family: 'Orbitron'; font-size: 11px; color: var(--jarvis-cyan); letter-spacing: 0.3em;">PLASMA CORE</span>
-                <span id="core-status" style="font-size: 9px; opacity: 0.6; display: block; margin-top: 6px;">INITIALIZING...</span>
+                <span style="font-family: 'Orbitron'; font-size: 12px; color: var(--jarvis-cyan); letter-spacing: 0.4em;">PLASMA CORE</span>
+                <span id="core-status" style="font-size: 10px; opacity: 0.6; display: block; margin-top: 8px;">AWAITING HANDSHAKE...</span>
             </div>
         </div>
 
         <div class="hw-widget">
-            <div class="hw-row"><span class="hw-key">CPU Load</span><span class="hw-val" id="cpu-load">0.0%</span></div>
-            <div class="hw-row"><span class="hw-key">Temp</span><span class="hw-val" id="cpu-temp">0°C</span></div>
-            <div class="hw-row"><span class="hw-key">Latency</span><span class="hw-val" id="net-latency">0ms</span></div>
+            <div class="hw-row"><span class="hw-key">System Load</span><span class="hw-val" id="cpu-load">0.0%</span></div>
+            <div class="hw-row"><span class="hw-key">Thermal</span><span class="hw-val" id="cpu-temp">0°C</span></div>
+            <div class="hw-row"><span class="hw-key">Ping</span><span class="hw-val" id="net-latency">0ms</span></div>
         </div>
 
         <div class="vic-monitor">
@@ -113,26 +113,25 @@
 
     <script>
         (function boot() {
-            // Configuration: Target your raw data file directly
+            // Update this URL with your actual raw GitHub path
             const DATA_URL = "https://raw.githubusercontent.com/tobeymarshall554-create/core-nexus-uplink/main/data.json";
             
-            // Core Animation Vars
             const canvas = document.getElementById('core-plasma');
             const ctx = canvas.getContext('2d');
-            let coreSpeed = 0.015;
+            let coreSpeed = 0.01;
             let time = 0;
 
-            // 1. Clock Logic
+            // Clock Logic
             setInterval(() => {
                 const now = new Date();
                 document.getElementById('clock-time').textContent = now.toLocaleTimeString('en-US', { hour12: false });
                 document.getElementById('clock-date').textContent = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
             }, 1000);
 
-            // 2. High-Speed XEON Sync Logic
+            // FASTER XEON SYNC (Cache-Busting Enabled)
             async function syncXeon() {
                 try {
-                    // FAST PULL: Appending a timestamp (?t=...) forces GitHub to bypass cache
+                    // ?t= ensures we bypass GitHub's 60-second cache
                     const response = await fetch(`${DATA_URL}?t=${new Date().getTime()}`);
                     const data = await response.json();
                     
@@ -140,32 +139,33 @@
                     document.getElementById('cpu-temp').textContent = data.metrics.temp + "°C";
                     document.getElementById('net-latency').textContent = data.metrics.latency + "ms";
                     
-                    // Link Visual Core Speed to Real CPU Utilization
-                    coreSpeed = 0.01 + (data.metrics.cpu / 1000);
+                    // Core reacts to Load
+                    coreSpeed = 0.005 + (data.metrics.cpu / 1500);
                     
-                    if(document.getElementById('vic-status').textContent !== "ACTIVE") {
-                        document.getElementById('vic-status').textContent = "ACTIVE";
+                    // Update Status on First Success
+                    if(document.getElementById('vic-status').textContent !== "STABLE_UPLINK") {
+                        document.getElementById('vic-status').textContent = "STABLE_UPLINK";
                         document.getElementById('vic-bar').style.width = "100%";
-                        document.getElementById('core-status').textContent = "STABLE";
+                        document.getElementById('core-status').textContent = "CONNECTED";
                     }
                 } catch (e) {
-                    document.getElementById('vic-status').textContent = "RECONNECTING...";
+                    document.getElementById('vic-status').textContent = "UPLINK_INTERRUPTED";
                 }
             }
 
-            // 3. Plasma Core Animation
+            // Animation Loop
             function draw() {
-                const w = canvas.width = 350;
-                const h = canvas.height = 350;
+                const w = canvas.width = 400;
+                const h = canvas.height = 400;
                 const cx = w/2, cy = h/2;
                 ctx.clearRect(0,0,w,h);
                 
-                const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 80);
-                grad.addColorStop(0, 'rgba(0, 251, 255, 0.7)');
+                const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 90);
+                grad.addColorStop(0, 'rgba(0, 251, 255, 0.6)');
                 grad.addColorStop(1, 'rgba(0, 251, 255, 0)');
                 ctx.fillStyle = grad;
                 ctx.beginPath();
-                ctx.arc(cx, cy, 65 + Math.sin(time*2)*8, 0, Math.PI*2);
+                ctx.arc(cx, cy, 75 + Math.sin(time*3)*10, 0, Math.PI*2);
                 ctx.fill();
 
                 time += coreSpeed;
@@ -174,7 +174,7 @@
 
             draw();
             syncXeon();
-            setInterval(syncXeon, 2000); // 2-second high-speed sync
+            setInterval(syncXeon, 2500); // 2.5s Sync - Fast but safe from rate-limits
         })();
     </script>
 </body>
