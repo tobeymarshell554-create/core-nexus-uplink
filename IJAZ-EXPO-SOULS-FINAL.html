@@ -134,12 +134,10 @@
             margin: 0;
         }
 
-        #base-layer::-webkit-scrollbar { width: 2px; }
-        #base-layer::-webkit-scrollbar-track { background: transparent; }
-        #base-layer::-webkit-scrollbar-thumb { background: rgba(0, 251, 255, 0.3); border-radius: 10px; }
-        .feed-scroll::-webkit-scrollbar { width: 2px; }
-        .feed-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.01); }
-        .feed-scroll::-webkit-scrollbar-thumb { background: var(--jarvis-cyan); box-shadow: 0 0 5px var(--jarvis-cyan); border-radius: 10px; }
+        /* SCROLLBARS */
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,251,255,0.4); box-shadow: 0 0 6px rgba(0,251,255,0.6); border-radius: 10px; }
 
         /* CANVAS BG */
         #bg-canvas {
@@ -147,59 +145,71 @@
             width: 100%; height: 100%;
             pointer-events: none;
         }
-        .grid-bg { pointer-events: none; }
-
-        /* BASE LAYER */
-        #base-layer {
-            position: fixed; inset: 0; z-index: 1; pointer-events: auto; overflow-y: auto; overflow-x: hidden;
+        .grid-bg { 
+            position: fixed; inset: 0; pointer-events: none; z-index: -1;
+            background-image: linear-gradient(rgba(0,251,255,0.02) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0,251,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
         }
-        #base-layer::-webkit-scrollbar { width: 3px; }
-        #base-layer::-webkit-scrollbar-track { background: transparent; }
-        #base-layer::-webkit-scrollbar-thumb { background: rgba(0,251,255,0.4); box-shadow: 0 0 6px rgba(0,251,255,0.6); border-radius: 10px; }
 
-        /* CORE SYSTEM STYLES */
+        /* HEADER */
+        header {
+            position: sticky; top: 0; z-index: 50;
+            background: rgba(0,8,20,0.8);
+            border-bottom: 1px solid rgba(0,251,255,0.15);
+            backdrop-filter: blur(12px);
+            height: 64px; display: flex; align-items: center; justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .header-logo-diamond {
+            width: 36px; height: 36px; border: 1px solid var(--jarvis-cyan);
+            transform: rotate(45deg); display: flex; align-items: center; justify-content: center;
+        }
+        .header-logo-diamond span { transform: rotate(-45deg); font-family: 'Orbitron'; font-size: 8px; color: var(--jarvis-cyan); }
+
+        .header-title-block { margin-left: 1rem; line-height: 1.2; }
+        .header-title { display: block; font-family: 'Orbitron'; font-size: 11px; letter-spacing: 0.2em; color: var(--jarvis-cyan); }
+        .header-subtitle { display: block; font-size: 8px; opacity: 0.4; text-transform: uppercase; }
+
+        .status-pill { display: flex; align-items: center; gap: 8px; font-size: 9px; text-transform: uppercase; opacity: 0.7; }
+        .status-pill-dot { width: 6px; height: 6px; border-radius: 50%; }
+        .status-pill-dot.cyan { background: var(--jarvis-cyan); box-shadow: 0 0 8px var(--jarvis-cyan); }
+        .status-pill-dot.amber { background: var(--friday-amber); box-shadow: 0 0 8px var(--friday-amber); }
+
+        .clock-time { font-family: 'Orbitron'; font-size: 16px; color: var(--jarvis-cyan); text-shadow: 0 0 10px var(--jarvis-cyan); }
+        .clock-date { font-size: 8px; opacity: 0.4; text-align: right; }
+
+        /* CORE CONTAINER */
+        main { height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; position: relative; }
+        
         .core-container {
-            position: relative;
-            width: 320px;
-            height: 320px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: relative; width: 320px; height: 320px;
+            display: flex; align-items: center; justify-content: center;
         }
+        .core-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
-        .core-canvas {
-            position: absolute;
-            inset: 0;
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            pointer-events: none;
-        }
+        .core-label { position: absolute; bottom: -40px; text-align: center; }
+        .core-label-name { font-family: 'Orbitron'; font-size: 10px; color: var(--jarvis-cyan); letter-spacing: 0.2em; display: block; }
+        .core-label-stat { font-size: 8px; opacity: 0.5; margin-top: 4px; display: block; }
 
-        .core-label {
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            text-align: center;
-            pointer-events: none;
+        /* VICTORIA INTEGRITY MONITOR */
+        .vic-monitor {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            width: 280px; text-align: center;
         }
-        .core-label-name {
-            font-family: 'Orbitron', monospace;
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: 0.22em;
-            color: var(--core-color);
-            text-shadow: 0 0 10px var(--core-color);
-            display: block;
+        .vic-status { font-family: 'Orbitron'; font-size: 8px; letter-spacing: 0.1em; color: var(--jarvis-cyan); margin-bottom: 6px; }
+        .vic-bar-track { height: 2px; background: rgba(255,255,255,0.1); overflow: hidden; }
+        .vic-bar-fill { height: 100%; width: 0%; background: var(--jarvis-cyan); box-shadow: 0 0 8px var(--jarvis-cyan); transition: width 0.5s ease; }
+
+        /* HARDWARE WIDGET */
+        .hw-widget {
+            position: absolute; right: 40px; top: 100px;
+            width: 180px; padding: 15px; border-left: 1px solid rgba(0,251,255,0.1);
         }
-        .core-label-stat {
-            font-size: 7px;
-            opacity: 0.45;
-            letter-spacing: 0.15em;
-            display: block;
-            margin-top: 2px;
-        }
+        .hw-row { display: flex; justify-content: space-between; font-size: 9px; margin-bottom: 8px; }
+        .hw-key { opacity: 0.5; text-transform: uppercase; }
+        .hw-val { color: var(--jarvis-cyan); font-family: monospace; }
     </style>
 </head>
 <body>
@@ -207,15 +217,17 @@
     <div class="grid-bg"></div>
 
     <header id="main-header">
-        <div class="header-logo-diamond">
-            <span>IJAZ</span>
-        </div>
-        <div class="header-title-block">
-            <span class="header-title">TRANSPARENT ARCHITECTURE</span>
-            <span class="header-subtitle">Core Interface v4.6</span>
+        <div class="flex items-center">
+            <div class="header-logo-diamond">
+                <span>IJAZ</span>
+            </div>
+            <div class="header-title-block">
+                <span class="header-title">TRANSPARENT ARCHITECTURE</span>
+                <span class="header-subtitle">SM-S926B // SM8650 Protocol</span>
+            </div>
         </div>
         
-        <div class="header-center">
+        <div class="header-center flex gap-8">
             <div class="status-pill">
                 <div class="status-pill-dot cyan"></div>
                 <span>Jarvis: Online</span>
@@ -227,57 +239,142 @@
         </div>
 
         <div class="header-clock-cluster">
-            <div class="clock-block">
-                <div class="clock-time" id="clock-time">12:00:00</div>
-                <div class="clock-date" id="clock-date">MARCH 24, 2026</div>
-            </div>
+            <div class="clock-time" id="clock-time">00:00:00</div>
+            <div class="clock-date" id="clock-date">LOADING...</div>
         </div>
     </header>
 
-    <main id="base-layer">
+    <main>
         <div class="core-container">
             <canvas id="core-plasma" class="core-canvas"></canvas>
             <div class="core-label">
                 <span class="core-label-name">PLASMA CORE</span>
-                <span class="core-label-stat">STABLE</span>
+                <span class="core-label-stat" id="core-status">INITIALIZING...</span>
+            </div>
+        </div>
+
+        <div class="hw-widget">
+            <div class="hw-row"><span class="hw-key">CPU Load</span><span class="hw-val" id="cpu-load">0.0%</span></div>
+            <div class="hw-row"><span class="hw-key">CPU Temp</span><span class="hw-val" id="cpu-temp">0°C</span></div>
+            <div class="hw-row"><span class="hw-key">GPU Util</span><span class="hw-val" id="gpu-util">0%</span></div>
+            <div class="hw-row"><span class="hw-key">Device ID</span><span class="hw-val">SM-S926B</span></div>
+        </div>
+
+        <div class="vic-monitor">
+            <div class="vic-status" id="vic-status">UPLINK_PENDING</div>
+            <div class="vic-bar-track">
+                <div class="vic-bar-fill" id="vic-bar"></div>
             </div>
         </div>
     </main>
 
     <script>
-        // CORE INITIALIZATION & BOOT SEQUENCE
         (function boot() {
-            console.log("XEON: Link Established via Sonnet 4.6 Protocol.");
-            
-            // Clock Update
+            console.log("XEON: Authority Layer Handshake Initiated.");
+
+            // Clock Logic
             setInterval(() => {
                 const now = new Date();
-                const timeStr = now.toLocaleTimeString('en-US', { hour12: false });
-                const dateStr = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
-                
-                const timeEl = document.getElementById('clock-time');
-                const dateEl = document.getElementById('clock-date');
-                if(timeEl) timeEl.textContent = timeStr;
-                if(dateEl) dateEl.textContent = dateStr;
+                document.getElementById('clock-time').textContent = now.toLocaleTimeString('en-US', { hour12: false });
+                document.getElementById('clock-date').textContent = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
             }, 1000);
 
-            // Dynamic Background Mouse Response
+            // Background Parallax
             let mx = 0.5, my = 0.5, tx = 0.5, ty = 0.5;
             document.addEventListener('mousemove', e => {
                 tx = e.clientX / window.innerWidth;
                 ty = e.clientY / window.innerHeight;
             });
 
-            function tick() {
+            function bgTick() {
                 mx += (tx - mx) * 0.04;
                 my += (ty - my) * 0.04;
-                const canvas = document.getElementById('bg-canvas');
-                if (canvas) {
-                    canvas.style.transform = `translateX(${(mx-0.5)*18}px) translateY(${(my-0.5)*12}px)`;
-                }
-                requestAnimationFrame(tick);
+                const bg = document.getElementById('bg-canvas');
+                if (bg) bg.style.transform = `translateX(${(mx-0.5)*18}px) translateY(${(my-0.5)*12}px)`;
+                requestAnimationFrame(bgTick);
             }
-            tick();
+            bgTick();
+
+            // Hardware Logic & Handshake
+            let hardwareState = {
+                cpu_utilization: 0,
+                cpu_temp_celsius: 32,
+                gpu_utilization: 0,
+                device_spoof: "SM-S926B"
+            };
+
+            async function xeonHandshake() {
+                const statusEl = document.getElementById('vic-status');
+                const barEl = document.getElementById('vic-bar');
+                
+                statusEl.textContent = "SYN_SENT";
+                barEl.style.width = "30%";
+                
+                await new Promise(r => setTimeout(r, 800));
+                statusEl.textContent = "ACK_RECEIVED";
+                barEl.style.width = "75%";
+                
+                await new Promise(r => setTimeout(r, 600));
+                statusEl.textContent = "STABLE_UPLINK";
+                barEl.style.width = "100%";
+                document.getElementById('core-status').textContent = "STABLE";
+                
+                startMonitoring();
+            }
+
+            function startMonitoring() {
+                setInterval(() => {
+                    // Simulate fluctuating hardware metrics
+                    hardwareState.cpu_utilization = (Math.random() * 45 + 5).toFixed(1);
+                    hardwareState.cpu_temp_celsius = Math.floor(Math.random() * 10 + 35);
+                    hardwareState.gpu_utilization = Math.floor(Math.random() * 20 + 2);
+
+                    document.getElementById('cpu-load').textContent = hardwareState.cpu_utilization + "%";
+                    document.getElementById('cpu-temp').textContent = hardwareState.cpu_temp_celsius + "°C";
+                    document.getElementById('gpu-util').textContent = hardwareState.gpu_utilization + "%";
+                    
+                    // Core speed linked to CPU load
+                    coreSpeed = 0.02 + (hardwareState.cpu_utilization / 1000);
+                }, 2000);
+            }
+
+            // Plasma Core Rendering
+            const canvas = document.getElementById('core-plasma');
+            const ctx = canvas.getContext('2d');
+            let coreSpeed = 0.02;
+            let time = 0;
+
+            function drawCore() {
+                const w = canvas.width = canvas.offsetWidth;
+                const h = canvas.height = canvas.offsetHeight;
+                const cx = w/2, cy = h/2;
+                ctx.clearRect(0,0,w,h);
+
+                // Outer Rings
+                for(let i=0; i<3; i++) {
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, 100 + i*15, time * (i+1) * 0.5, time * (i+1) * 0.5 + Math.PI);
+                    ctx.strokeStyle = `rgba(0, 251, 255, ${0.1 + i*0.1})`;
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+
+                // Plasma Glow
+                const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 80);
+                grad.addColorStop(0, 'rgba(0, 251, 255, 0.8)');
+                grad.addColorStop(0.5, 'rgba(0, 251, 255, 0.2)');
+                grad.addColorStop(1, 'rgba(0, 251, 255, 0)');
+                
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(cx, cy, 80 + Math.sin(time*2)*5, 0, Math.PI*2);
+                ctx.fill();
+
+                time += coreSpeed;
+                requestAnimationFrame(drawCore);
+            }
+            drawCore();
+            xeonHandshake();
         })();
     </script>
 </body>
