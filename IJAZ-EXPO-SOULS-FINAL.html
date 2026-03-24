@@ -5,124 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IJAZ EXPO - Transparent Architecture</title>
     <style>
-        /* ── TAILWIND UTILITY REPLACEMENTS ─────────────────── */
-        .flex          { display: flex; }
-        .flex-col      { flex-direction: column; }
-        .grid          { display: grid; }
-        .relative      { position: relative; }
-        .absolute      { position: absolute; }
-        .sticky        { position: sticky; }
-        .fixed         { position: fixed; }
-        .inset-0       { top:0;right:0;bottom:0;left:0; }
-        .top-0         { top: 0; }
-        .top-1/2      { top: 50%; }
-        .-top-1        { top: -0.25rem; }
-        .left-1        { left: 0.25rem; }
-        .left-1/2     { left: 50%; }
-        .overflow-hidden { overflow: hidden; }
-        .items-center  { align-items: center; }
-        .items-start   { align-items: flex-start; }
-        .justify-between { justify-content: space-between; }
-        .justify-start { justify-content: flex-start; }
-        .justify-center { justify-content: center; }
-        .z-50          { z-index: 50; }
-        .-translate-x-1/2 { transform: translateX(-50%); }
-        .-translate-y-1/2 { transform: translateY(-50%); }
-        .rotate-45     { transform: rotate(45deg); }
-        .rotate-[-45deg] { transform: rotate(-45deg); }
-        .uppercase     { text-transform: uppercase; }
-        .font-bold     { font-weight: 700; }
-        .font-mono     { font-family: ui-monospace, monospace; }
-        .text-right    { text-align: right; }
-        .text-xs       { font-size: 0.75rem; }
-        .text-lg       { font-size: 1.125rem; }
-        .text-[8px]  { font-size: 8px; }
-        .text-[9px]  { font-size: 9px; }
-        .text-[10px] { font-size: 10px; }
-        .text-white    { color: #fff; }
-        .text-cyan-400 { color: #22d3ee; }
-        .text-cyan-500 { color: #06b6d4; }
-        .tracking-[0.2em] { letter-spacing: 0.2em; }
-        .tracking-widest    { letter-spacing: 0.25em; }
-        .tracking-tighter   { letter-spacing: -0.05em; }
-        .opacity-30    { opacity: 0.3; }
-        .opacity-40    { opacity: 0.4; }
-        .opacity-50    { opacity: 0.5; }
-        .opacity-70    { opacity: 0.7; }
-        .rounded-sm    { border-radius: 0.125rem; }
-        .rounded-full  { border-radius: 9999px; }
-        .border        { border-width: 1px; border-style: solid; }
-        .border-b      { border-bottom-width: 1px; border-bottom-style: solid; }
-        .border-white/5  { border-color: rgba(255,255,255,0.05); }
-        .border-white/10 { border-color: rgba(255,255,255,0.1); }
-        .border-cyan-500/30 { border-color: rgba(6,182,212,0.3); }
-        .border-cyan-500/50 { border-color: rgba(6,182,212,0.5); }
-        .bg-cyan-400   { background-color: #22d3ee; }
-        .bg-cyan-500   { background-color: #06b6d4; }
-        .bg-cyan-500/10 { background-color: rgba(6,182,212,0.1); }
-        .bg-cyan-500/20 { background-color: rgba(6,182,212,0.2); }
-        .bg-cyan-500/30 { background-color: rgba(6,182,212,0.3); }
-        .bg-cyan-500/40 { background-color: rgba(6,182,212,0.4); }
-        .bg-white/10  { background-color: rgba(255,255,255,0.1); }
-        .bg-black/40  { background-color: rgba(0,0,0,0.4); }
-        .backdrop-blur-sm { backdrop-filter: blur(4px); }
-        .shadow-[0_0_8px_cyan] { box-shadow: 0 0 8px cyan; }
-        .shadow-[0_0_5px_cyan] { box-shadow: 0 0 5px cyan; }
-        .outline-none  { outline: none; }
-        .transition-all { transition: all 0.15s ease; }
-        .h-full        { height: 100%; }
-        .w-full        { width: 100%; }
-        .h-0.5        { height: 2px; }
-        .h-1.5        { height: 6px; }
-        .h-2           { height: 0.5rem; }
-        .h-4           { height: 1rem; }
-        .h-8           { height: 2rem; }
-        .h-12          { height: 3rem; }
-        .w-0.5        { width: 2px; }
-        .w-1           { width: 0.25rem; }
-        .w-1.5        { width: 6px; }
-        .w-8           { width: 2rem; }
-        .w-12          { width: 3rem; }
-        .p-2           { padding: 0.5rem; }
-        .p-3           { padding: 0.75rem; }
-        .p-6           { padding: 1.5rem; }
-        .p-8           { padding: 2rem; }
-        .py-2          { padding-top: 0.5rem; padding-bottom: 0.5rem; }
-        .pl-6          { padding-left: 1.5rem; }
-        .pr-2          { padding-right: 0.5rem; }
-        .pt-0          { padding-top: 0; }
-        .mb-1          { margin-bottom: 0.25rem; }
-        .mb-2          { margin-bottom: 0.5rem; }
-        .mb-3          { margin-bottom: 0.75rem; }
-        .mb-4          { margin-bottom: 1rem; }
-        .mb-6          { margin-bottom: 1.5rem; }
-        .mr-4          { margin-right: 1rem; }
-        .gap-0.5      { gap: 0.125rem; }
-        .gap-1         { gap: 0.25rem; }
-        .gap-4         { gap: 1rem; }
-        .gap-6         { gap: 1.5rem; }
-        .gap-8         { gap: 2rem; }
-        .gap-20        { gap: 5rem; }
-        .space-y-4 > * + * { margin-top: 1rem; }
-        .grid-cols-12  { grid-template-columns: repeat(12, minmax(0, 1fr)); }
-        .grid-cols-4   { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-        .col-span-2    { grid-column: span 2 / span 2; }
-        .col-span-8    { grid-column: span 8 / span 8; }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-        .animate-pulse { animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
-        /* focus states */
-        input:focus.border-cyan-500/30 { border-color: #06b6d4; background-color: rgba(6,182,212,0.05); }
-    </style>
-    <style>
+        /* ── UTILITY & CORE STYLES ── */
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap');
 
         :root {
             --jarvis-cyan: #00fbff;
             --friday-amber: #ff8c00;
             --veronica-red: #ff1111;
+            --bg-dark: #000814;
         }
 
         body {
@@ -134,22 +24,10 @@
             margin: 0;
         }
 
-        /* SCROLLBARS */
-        ::-webkit-scrollbar { width: 3px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(0,251,255,0.4); box-shadow: 0 0 6px rgba(0,251,255,0.6); border-radius: 10px; }
-
-        /* CANVAS BG */
         #bg-canvas {
             position: fixed; inset: 0; z-index: -1;
             width: 100%; height: 100%;
             pointer-events: none;
-        }
-        .grid-bg { 
-            position: fixed; inset: 0; pointer-events: none; z-index: -1;
-            background-image: linear-gradient(rgba(0,251,255,0.02) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(0,251,255,0.02) 1px, transparent 1px);
-            background-size: 50px 50px;
         }
 
         /* HEADER */
@@ -180,7 +58,7 @@
         .clock-time { font-family: 'Orbitron'; font-size: 16px; color: var(--jarvis-cyan); text-shadow: 0 0 10px var(--jarvis-cyan); }
         .clock-date { font-size: 8px; opacity: 0.4; text-align: right; }
 
-        /* CORE CONTAINER */
+        /* MAIN HUD ELEMENTS */
         main { height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; position: relative; }
         
         .core-container {
@@ -189,56 +67,44 @@
         }
         .core-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
-        .core-label { position: absolute; bottom: -40px; text-align: center; }
-        .core-label-name { font-family: 'Orbitron'; font-size: 10px; color: var(--jarvis-cyan); letter-spacing: 0.2em; display: block; }
-        .core-label-stat { font-size: 8px; opacity: 0.5; margin-top: 4px; display: block; }
-
-        /* VICTORIA INTEGRITY MONITOR */
-        .vic-monitor {
-            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: 280px; text-align: center;
-        }
-        .vic-status { font-family: 'Orbitron'; font-size: 8px; letter-spacing: 0.1em; color: var(--jarvis-cyan); margin-bottom: 6px; }
-        .vic-bar-track { height: 2px; background: rgba(255,255,255,0.1); overflow: hidden; }
-        .vic-bar-fill { height: 100%; width: 0%; background: var(--jarvis-cyan); box-shadow: 0 0 8px var(--jarvis-cyan); transition: width 0.5s ease; }
-
         /* HARDWARE WIDGET */
         .hw-widget {
             position: absolute; right: 40px; top: 100px;
             width: 180px; padding: 15px; border-left: 1px solid rgba(0,251,255,0.1);
+            background: rgba(0,0,0,0.3); backdrop-filter: blur(5px);
         }
-        .hw-row { display: flex; justify-content: space-between; font-size: 9px; margin-bottom: 8px; }
+        .hw-row { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 8px; letter-spacing: 1px; }
         .hw-key { opacity: 0.5; text-transform: uppercase; }
         .hw-val { color: var(--jarvis-cyan); font-family: monospace; }
+
+        /* VICTORIA INTEGRITY MONITOR */
+        .vic-monitor {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            width: 300px; text-align: center;
+        }
+        .vic-status { font-family: 'Orbitron'; font-size: 8px; letter-spacing: 0.2em; color: var(--jarvis-cyan); margin-bottom: 8px; }
+        .vic-bar-track { height: 2px; background: rgba(255,255,255,0.05); overflow: hidden; }
+        .vic-bar-fill { height: 100%; width: 0%; background: var(--jarvis-cyan); box-shadow: 0 0 10px var(--jarvis-cyan); transition: width 0.4s ease; }
     </style>
 </head>
 <body>
     <canvas id="bg-canvas"></canvas>
-    <div class="grid-bg"></div>
 
-    <header id="main-header">
-        <div class="flex items-center">
-            <div class="header-logo-diamond">
-                <span>IJAZ</span>
-            </div>
+    <header>
+        <div style="display: flex; align-items: center;">
+            <div class="header-logo-diamond"><span>IJAZ</span></div>
             <div class="header-title-block">
                 <span class="header-title">TRANSPARENT ARCHITECTURE</span>
-                <span class="header-subtitle">SM-S926B // SM8650 Protocol</span>
+                <span class="header-subtitle">XEON AUTHORITY LAYER // SM-S926B</span>
             </div>
         </div>
         
-        <div class="header-center flex gap-8">
-            <div class="status-pill">
-                <div class="status-pill-dot cyan"></div>
-                <span>Jarvis: Online</span>
-            </div>
-            <div class="status-pill">
-                <div class="status-pill-dot amber"></div>
-                <span>Friday: Active</span>
-            </div>
+        <div style="display: flex; gap: 2rem;">
+            <div class="status-pill"><div class="status-pill-dot cyan"></div><span>Jarvis: Online</span></div>
+            <div class="status-pill"><div class="status-pill-dot amber"></div><span>Friday: Active</span></div>
         </div>
 
-        <div class="header-clock-cluster">
+        <div>
             <div class="clock-time" id="clock-time">00:00:00</div>
             <div class="clock-date" id="clock-date">LOADING...</div>
         </div>
@@ -247,9 +113,9 @@
     <main>
         <div class="core-container">
             <canvas id="core-plasma" class="core-canvas"></canvas>
-            <div class="core-label">
-                <span class="core-label-name">PLASMA CORE</span>
-                <span class="core-label-stat" id="core-status">INITIALIZING...</span>
+            <div style="position: absolute; bottom: -30px; text-align: center;">
+                <span style="font-family: 'Orbitron'; font-size: 10px; color: var(--jarvis-cyan); letter-spacing: 0.2em;">PLASMA CORE</span>
+                <span id="core-status" style="font-size: 8px; opacity: 0.5; display: block; margin-top: 4px;">INITIALIZING...</span>
             </div>
         </div>
 
@@ -257,21 +123,17 @@
             <div class="hw-row"><span class="hw-key">CPU Load</span><span class="hw-val" id="cpu-load">0.0%</span></div>
             <div class="hw-row"><span class="hw-key">CPU Temp</span><span class="hw-val" id="cpu-temp">0°C</span></div>
             <div class="hw-row"><span class="hw-key">GPU Util</span><span class="hw-val" id="gpu-util">0%</span></div>
-            <div class="hw-row"><span class="hw-key">Device ID</span><span class="hw-val">SM-S926B</span></div>
+            <div class="hw-row"><span class="hw-key">Device</span><span class="hw-val">SM-S926B</span></div>
         </div>
 
         <div class="vic-monitor">
             <div class="vic-status" id="vic-status">UPLINK_PENDING</div>
-            <div class="vic-bar-track">
-                <div class="vic-bar-fill" id="vic-bar"></div>
-            </div>
+            <div class="vic-bar-track"><div class="vic-bar-fill" id="vic-bar"></div></div>
         </div>
     </main>
 
     <script>
         (function boot() {
-            console.log("XEON: Authority Layer Handshake Initiated.");
-
             // Clock Logic
             setInterval(() => {
                 const now = new Date();
@@ -279,102 +141,83 @@
                 document.getElementById('clock-date').textContent = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
             }, 1000);
 
-            // Background Parallax
-            let mx = 0.5, my = 0.5, tx = 0.5, ty = 0.5;
-            document.addEventListener('mousemove', e => {
-                tx = e.clientX / window.innerWidth;
-                ty = e.clientY / window.innerHeight;
-            });
-
-            function bgTick() {
-                mx += (tx - mx) * 0.04;
-                my += (ty - my) * 0.04;
-                const bg = document.getElementById('bg-canvas');
-                if (bg) bg.style.transform = `translateX(${(mx-0.5)*18}px) translateY(${(my-0.5)*12}px)`;
-                requestAnimationFrame(bgTick);
-            }
-            bgTick();
-
-            // Hardware Logic & Handshake
-            let hardwareState = {
-                cpu_utilization: 0,
-                cpu_temp_celsius: 32,
-                gpu_utilization: 0,
-                device_spoof: "SM-S926B"
-            };
-
-            async function xeonHandshake() {
+            // Xeon Handshake Sequence
+            async function initiateXeonLink() {
                 const statusEl = document.getElementById('vic-status');
                 const barEl = document.getElementById('vic-bar');
+                const coreEl = document.getElementById('core-status');
+
+                const steps = [
+                    { msg: "SYNC_REQUEST_SENT", p: 20 },
+                    { msg: "AUTHORITY_LAYER_ACK", p: 45 },
+                    { msg: "METRIC_HANDSHAKE_ESTABLISHED", p: 75 },
+                    { msg: "STABLE_UPLINK", p: 100 }
+                ];
+
+                for (let step of steps) {
+                    statusEl.textContent = step.msg;
+                    barEl.style.width = step.p + "%";
+                    await new Promise(r => setTimeout(r, 600));
+                }
                 
-                statusEl.textContent = "SYN_SENT";
-                barEl.style.width = "30%";
-                
-                await new Promise(r => setTimeout(r, 800));
-                statusEl.textContent = "ACK_RECEIVED";
-                barEl.style.width = "75%";
-                
-                await new Promise(r => setTimeout(r, 600));
-                statusEl.textContent = "STABLE_UPLINK";
-                barEl.style.width = "100%";
-                document.getElementById('core-status').textContent = "STABLE";
-                
-                startMonitoring();
+                coreEl.textContent = "STABLE";
+                startMetricStreaming();
             }
 
-            function startMonitoring() {
+            function startMetricStreaming() {
                 setInterval(() => {
-                    // Simulate fluctuating hardware metrics
-                    hardwareState.cpu_utilization = (Math.random() * 45 + 5).toFixed(1);
-                    hardwareState.cpu_temp_celsius = Math.floor(Math.random() * 10 + 35);
-                    hardwareState.gpu_utilization = Math.floor(Math.random() * 20 + 2);
+                    // Simulate metric tracking from the backend repository
+                    const cpu = (Math.random() * 30 + 5).toFixed(1);
+                    const temp = Math.floor(Math.random() * 8 + 38);
+                    const gpu = Math.floor(Math.random() * 15 + 5);
 
-                    document.getElementById('cpu-load').textContent = hardwareState.cpu_utilization + "%";
-                    document.getElementById('cpu-temp').textContent = hardwareState.cpu_temp_celsius + "°C";
-                    document.getElementById('gpu-util').textContent = hardwareState.gpu_utilization + "%";
+                    document.getElementById('cpu-load').textContent = cpu + "%";
+                    document.getElementById('cpu-temp').textContent = temp + "°C";
+                    document.getElementById('gpu-util').textContent = gpu + "%";
                     
-                    // Core speed linked to CPU load
-                    coreSpeed = 0.02 + (hardwareState.cpu_utilization / 1000);
-                }, 2000);
+                    // Adjust plasma speed based on "XEON" power level
+                    coreSpeed = 0.01 + (cpu / 800);
+                }, 1500);
             }
 
-            // Plasma Core Rendering
+            // Plasma Core Animation
             const canvas = document.getElementById('core-plasma');
             const ctx = canvas.getContext('2d');
-            let coreSpeed = 0.02;
+            let coreSpeed = 0.015;
             let time = 0;
 
-            function drawCore() {
-                const w = canvas.width = canvas.offsetWidth;
-                const h = canvas.height = canvas.offsetHeight;
-                const cx = w/2, cy = h/2;
+            function draw() {
+                const w = canvas.width = 320;
+                const h = canvas.height = 320;
                 ctx.clearRect(0,0,w,h);
-
-                // Outer Rings
-                for(let i=0; i<3; i++) {
-                    ctx.beginPath();
-                    ctx.arc(cx, cy, 100 + i*15, time * (i+1) * 0.5, time * (i+1) * 0.5 + Math.PI);
-                    ctx.strokeStyle = `rgba(0, 251, 255, ${0.1 + i*0.1})`;
-                    ctx.lineWidth = 1;
-                    ctx.stroke();
-                }
-
-                // Plasma Glow
-                const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 80);
-                grad.addColorStop(0, 'rgba(0, 251, 255, 0.8)');
-                grad.addColorStop(0.5, 'rgba(0, 251, 255, 0.2)');
+                
+                const cx = w/2, cy = h/2;
+                
+                // Pulsing Center
+                const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 70);
+                grad.addColorStop(0, 'rgba(0, 251, 255, 0.6)');
                 grad.addColorStop(1, 'rgba(0, 251, 255, 0)');
                 
                 ctx.fillStyle = grad;
                 ctx.beginPath();
-                ctx.arc(cx, cy, 80 + Math.sin(time*2)*5, 0, Math.PI*2);
+                ctx.arc(cx, cy, 60 + Math.sin(time)*5, 0, Math.PI*2);
                 ctx.fill();
 
+                // Rotating Rings
+                ctx.strokeStyle = 'rgba(0, 251, 255, 0.3)';
+                ctx.lineWidth = 1;
+                for(let i=0; i<3; i++) {
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, 80 + i*12, time * (i+1) * 0.5, time * (i+1) * 0.5 + Math.PI);
+                    ctx.stroke();
+                }
+
                 time += coreSpeed;
-                requestAnimationFrame(drawCore);
+                requestAnimationFrame(draw);
             }
-            drawCore();
-            xeonHandshake();
+
+            draw();
+            initiateXeonLink();
         })();
     </script>
 </body>
