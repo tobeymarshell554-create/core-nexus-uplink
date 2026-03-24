@@ -1,17 +1,22 @@
-# OS Metadata
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Operating System Files
 .DS_Store
 Thumbs.db
-desktop.ini
 
-# IDE & Editor Configs
-.vscode/
-.idea/
-*.su[op]
-*.session.gui
+# Environment / Private Configs
+.env
+.env.local
+config.local.json
 
-# Local Testing / Temporary
-logs/
-*.log
-temp/
+# Build directories
 dist/
-node_modules/
+out/
+build/
