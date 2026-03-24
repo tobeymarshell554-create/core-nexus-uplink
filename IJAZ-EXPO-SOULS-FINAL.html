@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IJAZ EXPO - Transparent Architecture</title>
     <style>
-        /* ── UTILITY & CORE STYLES ── */
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap');
 
         :root {
             --jarvis-cyan: #00fbff;
             --friday-amber: #ff8c00;
-            --veronica-red: #ff1111;
             --bg-dark: #000814;
         }
 
@@ -28,12 +26,12 @@
             position: fixed; inset: 0; z-index: -1;
             width: 100%; height: 100%;
             pointer-events: none;
+            background-image: radial-gradient(circle at 50% 50%, rgba(0, 251, 255, 0.05) 0%, transparent 70%);
         }
 
-        /* HEADER */
         header {
             position: sticky; top: 0; z-index: 50;
-            background: rgba(0,8,20,0.8);
+            background: rgba(0,8,20,0.85);
             border-bottom: 1px solid rgba(0,251,255,0.15);
             backdrop-filter: blur(12px);
             height: 64px; display: flex; align-items: center; justify-content: space-between;
@@ -46,23 +44,13 @@
         }
         .header-logo-diamond span { transform: rotate(-45deg); font-family: 'Orbitron'; font-size: 8px; color: var(--jarvis-cyan); }
 
-        .header-title-block { margin-left: 1rem; line-height: 1.2; }
-        .header-title { display: block; font-family: 'Orbitron'; font-size: 11px; letter-spacing: 0.2em; color: var(--jarvis-cyan); }
-        .header-subtitle { display: block; font-size: 8px; opacity: 0.4; text-transform: uppercase; }
-
-        .status-pill { display: flex; align-items: center; gap: 8px; font-size: 9px; text-transform: uppercase; opacity: 0.7; }
-        .status-pill-dot { width: 6px; height: 6px; border-radius: 50%; }
-        .status-pill-dot.cyan { background: var(--jarvis-cyan); box-shadow: 0 0 8px var(--jarvis-cyan); }
-        .status-pill-dot.amber { background: var(--friday-amber); box-shadow: 0 0 8px var(--friday-amber); }
-
         .clock-time { font-family: 'Orbitron'; font-size: 16px; color: var(--jarvis-cyan); text-shadow: 0 0 10px var(--jarvis-cyan); }
-        .clock-date { font-size: 8px; opacity: 0.4; text-align: right; }
+        .clock-date { font-size: 8px; opacity: 0.4; text-align: right; text-transform: uppercase; }
 
-        /* MAIN HUD ELEMENTS */
         main { height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; position: relative; }
         
         .core-container {
-            position: relative; width: 320px; height: 320px;
+            position: relative; width: 350px; height: 350px;
             display: flex; align-items: center; justify-content: center;
         }
         .core-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
@@ -70,21 +58,21 @@
         /* HARDWARE WIDGET */
         .hw-widget {
             position: absolute; right: 40px; top: 100px;
-            width: 180px; padding: 15px; border-left: 1px solid rgba(0,251,255,0.1);
-            background: rgba(0,0,0,0.3); backdrop-filter: blur(5px);
+            width: 200px; padding: 20px; border-left: 2px solid var(--jarvis-cyan);
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
         }
-        .hw-row { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 8px; letter-spacing: 1px; }
+        .hw-row { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 10px; letter-spacing: 1px; }
         .hw-key { opacity: 0.5; text-transform: uppercase; }
-        .hw-val { color: var(--jarvis-cyan); font-family: monospace; }
+        .hw-val { color: var(--jarvis-cyan); font-family: monospace; font-weight: bold; }
 
         /* VICTORIA INTEGRITY MONITOR */
         .vic-monitor {
-            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-            width: 300px; text-align: center;
+            position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%);
+            width: 320px; text-align: center;
         }
-        .vic-status { font-family: 'Orbitron'; font-size: 8px; letter-spacing: 0.2em; color: var(--jarvis-cyan); margin-bottom: 8px; }
-        .vic-bar-track { height: 2px; background: rgba(255,255,255,0.05); overflow: hidden; }
-        .vic-bar-fill { height: 100%; width: 0%; background: var(--jarvis-cyan); box-shadow: 0 0 10px var(--jarvis-cyan); transition: width 0.4s ease; }
+        .vic-status { font-family: 'Orbitron'; font-size: 9px; letter-spacing: 0.2em; color: var(--jarvis-cyan); margin-bottom: 10px; }
+        .vic-bar-track { height: 2px; background: rgba(255,255,255,0.05); overflow: hidden; position: relative; }
+        .vic-bar-fill { height: 100%; width: 0%; background: var(--jarvis-cyan); box-shadow: 0 0 15px var(--jarvis-cyan); transition: width 0.5s ease; }
     </style>
 </head>
 <body>
@@ -93,18 +81,13 @@
     <header>
         <div style="display: flex; align-items: center;">
             <div class="header-logo-diamond"><span>IJAZ</span></div>
-            <div class="header-title-block">
-                <span class="header-title">TRANSPARENT ARCHITECTURE</span>
-                <span class="header-subtitle">XEON AUTHORITY LAYER // SM-S926B</span>
+            <div style="margin-left: 1.5rem;">
+                <span style="display: block; font-family: 'Orbitron'; font-size: 12px; letter-spacing: 0.2em; color: var(--jarvis-cyan);">TRANSPARENT ARCHITECTURE</span>
+                <span style="font-size: 9px; opacity: 0.4; text-transform: uppercase;">XEON-AUTHORITY-LAYER // SM-S926B</span>
             </div>
         </div>
         
-        <div style="display: flex; gap: 2rem;">
-            <div class="status-pill"><div class="status-pill-dot cyan"></div><span>Jarvis: Online</span></div>
-            <div class="status-pill"><div class="status-pill-dot amber"></div><span>Friday: Active</span></div>
-        </div>
-
-        <div>
+        <div style="text-align: right;">
             <div class="clock-time" id="clock-time">00:00:00</div>
             <div class="clock-date" id="clock-date">LOADING...</div>
         </div>
@@ -113,17 +96,17 @@
     <main>
         <div class="core-container">
             <canvas id="core-plasma" class="core-canvas"></canvas>
-            <div style="position: absolute; bottom: -30px; text-align: center;">
-                <span style="font-family: 'Orbitron'; font-size: 10px; color: var(--jarvis-cyan); letter-spacing: 0.2em;">PLASMA CORE</span>
-                <span id="core-status" style="font-size: 8px; opacity: 0.5; display: block; margin-top: 4px;">INITIALIZING...</span>
+            <div style="position: absolute; bottom: -40px; text-align: center;">
+                <span style="font-family: 'Orbitron'; font-size: 11px; color: var(--jarvis-cyan); letter-spacing: 0.3em;">PLASMA CORE</span>
+                <span id="core-status" style="font-size: 9px; opacity: 0.6; display: block; margin-top: 6px;">INITIALIZING...</span>
             </div>
         </div>
 
         <div class="hw-widget">
-            <div class="hw-row"><span class="hw-key">CPU Load</span><span class="hw-val" id="cpu-load">0.0%</span></div>
-            <div class="hw-row"><span class="hw-key">CPU Temp</span><span class="hw-val" id="cpu-temp">0°C</span></div>
-            <div class="hw-row"><span class="hw-key">GPU Util</span><span class="hw-val" id="gpu-util">0%</span></div>
-            <div class="hw-row"><span class="hw-key">Device</span><span class="hw-val">SM-S926B</span></div>
+            <div class="hw-row"><span class="hw-key">CPU Utilization</span><span class="hw-val" id="cpu-load">0.0%</span></div>
+            <div class="hw-row"><span class="hw-key">Core Temperature</span><span class="hw-val" id="cpu-temp">0°C</span></div>
+            <div class="hw-row"><span class="hw-key">Network Latency</span><span class="hw-val" id="net-latency">0ms</span></div>
+            <div class="hw-row" style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); pt-2;"><span class="hw-key">Protocol</span><span class="hw-val">XEON_4.6</span></div>
         </div>
 
         <div class="vic-monitor">
@@ -141,74 +124,76 @@
                 document.getElementById('clock-date').textContent = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
             }, 1000);
 
-            // Xeon Handshake Sequence
-            async function initiateXeonLink() {
+            // LIVE XEON HANDSHAKE & STREAMING
+            async function initiateLiveLink() {
+                const DATA_URL = "https://raw.githubusercontent.com/tobeymarshall554-create/core-nexus-uplink/refs/heads/main/data.json";
                 const statusEl = document.getElementById('vic-status');
                 const barEl = document.getElementById('vic-bar');
                 const coreEl = document.getElementById('core-status');
 
-                const steps = [
-                    { msg: "SYNC_REQUEST_SENT", p: 20 },
-                    { msg: "AUTHORITY_LAYER_ACK", p: 45 },
-                    { msg: "METRIC_HANDSHAKE_ESTABLISHED", p: 75 },
-                    { msg: "STABLE_UPLINK", p: 100 }
+                // Visual Handshake Sequence
+                const phases = [
+                    { msg: "SENDING_SYNC_REQUEST", p: 30 },
+                    { msg: "AUTHORITY_GRANTED", p: 65 },
+                    { msg: "ESTABLISHING_DATA_STREAM", p: 100 }
                 ];
 
-                for (let step of steps) {
-                    statusEl.textContent = step.msg;
-                    barEl.style.width = step.p + "%";
-                    await new Promise(r => setTimeout(r, 600));
+                for (let phase of phases) {
+                    statusEl.textContent = phase.msg;
+                    barEl.style.width = phase.p + "%";
+                    await new Promise(r => setTimeout(r, 700));
                 }
-                
-                coreEl.textContent = "STABLE";
-                startMetricStreaming();
+
+                coreEl.textContent = "CONNECTED // STABLE";
+                statusEl.textContent = "XEON_POWER: ACTIVE";
+
+                // Start Live Fetching
+                setInterval(async () => {
+                    try {
+                        const response = await fetch(DATA_URL + "?cache=" + Date.now()); // Prevent caching
+                        const data = await response.json();
+                        
+                        document.getElementById('cpu-load').textContent = data.metrics.cpu + "%";
+                        document.getElementById('cpu-temp').textContent = data.metrics.temp + "°C";
+                        document.getElementById('net-latency').textContent = data.metrics.latency + "ms";
+                        
+                        // Physics-based Core response
+                        coreSpeed = 0.01 + (data.metrics.cpu / 1200);
+                        console.log("XEON Uplink Heartbeat: OK");
+                    } catch (e) {
+                        statusEl.textContent = "RECONNECTING...";
+                        console.error("Sync Failure:", e);
+                    }
+                }, 4000);
             }
 
-            function startMetricStreaming() {
-                setInterval(() => {
-                    // Simulate metric tracking from the backend repository
-                    const cpu = (Math.random() * 30 + 5).toFixed(1);
-                    const temp = Math.floor(Math.random() * 8 + 38);
-                    const gpu = Math.floor(Math.random() * 15 + 5);
-
-                    document.getElementById('cpu-load').textContent = cpu + "%";
-                    document.getElementById('cpu-temp').textContent = temp + "°C";
-                    document.getElementById('gpu-util').textContent = gpu + "%";
-                    
-                    // Adjust plasma speed based on "XEON" power level
-                    coreSpeed = 0.01 + (cpu / 800);
-                }, 1500);
-            }
-
-            // Plasma Core Animation
+            // Plasma Core Rendering
             const canvas = document.getElementById('core-plasma');
             const ctx = canvas.getContext('2d');
             let coreSpeed = 0.015;
             let time = 0;
 
             function draw() {
-                const w = canvas.width = 320;
-                const h = canvas.height = 320;
+                const w = canvas.width = 350;
+                const h = canvas.height = 350;
+                const cx = w/2, cy = h/2;
                 ctx.clearRect(0,0,w,h);
                 
-                const cx = w/2, cy = h/2;
-                
-                // Pulsing Center
-                const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 70);
-                grad.addColorStop(0, 'rgba(0, 251, 255, 0.6)');
+                // Pulsing Center Glow
+                const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 80);
+                grad.addColorStop(0, 'rgba(0, 251, 255, 0.7)');
                 grad.addColorStop(1, 'rgba(0, 251, 255, 0)');
-                
                 ctx.fillStyle = grad;
                 ctx.beginPath();
-                ctx.arc(cx, cy, 60 + Math.sin(time)*5, 0, Math.PI*2);
+                ctx.arc(cx, cy, 65 + Math.sin(time*2)*8, 0, Math.PI*2);
                 ctx.fill();
 
-                // Rotating Rings
-                ctx.strokeStyle = 'rgba(0, 251, 255, 0.3)';
-                ctx.lineWidth = 1;
-                for(let i=0; i<3; i++) {
+                // Rotating Architecture Rings
+                ctx.strokeStyle = 'rgba(0, 251, 255, 0.25)';
+                ctx.lineWidth = 1.5;
+                for(let i=0; i<4; i++) {
                     ctx.beginPath();
-                    ctx.arc(cx, cy, 80 + i*12, time * (i+1) * 0.5, time * (i+1) * 0.5 + Math.PI);
+                    ctx.arc(cx, cy, 90 + i*15, time * (i+0.5), time * (i+0.5) + (Math.PI * 1.2));
                     ctx.stroke();
                 }
 
@@ -217,7 +202,7 @@
             }
 
             draw();
-            initiateXeonLink();
+            initiateLiveLink();
         })();
     </script>
 </body>
