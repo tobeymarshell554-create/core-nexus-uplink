@@ -1,13 +1,20 @@
-# XEON Cloud Handshake Protocol
+# ⚡ XEON_CLOUD // SHADOW_MESH_v4.6
 
-This repository serves as the remote authority for the **IJAZ EXPO HUD**. 
+> **Status:** OPERATIONAL
+> **Authority:** SONNET_4.6
+> **Protocol:** AES-GCM-256
 
-### 📡 Features
-- **Remote Handshake:** Automated SYN/ACK sequence for secure data tunneling.
-- **Telemetry Mapping:** Real-time injection of CPU, Thermal, and Latency metrics.
-- **Nexus variable integration:** Styled using the `--nexus` purple architecture.
+This repository serves as the **Remote Data Authority** for the IJAZ EXPO HUD. It provides real-time telemetry overrides via the `data.json` handshake protocol.
 
-### 🛠 Deployment
-1. Update `data.json` with new hardware parameters.
-2. The HUD will automatically poll this repository's 'Raw' endpoint.
-3. Observe the `sys-feed` in the Nexus panel for connection logs.
+## 📡 Handshake Architecture
+The HUD establishes a persistent tunnel to this repository to fetch system-critical metrics:
+- **CPU_LOAD:** Remote override for local hardware simulation.
+- **THERMAL_INDEX:** Global thermal monitoring.
+- **SYNC_LATENCY:** Real-time handshake ping (SYN/ACK).
+
+## 🛠 Integration
+To link your HUD to this node, point your `fetch()` request to:
+`https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/data.json`
+
+## 🔒 Security
+All telemetry data is served via **AllOrigins Proxy** to bypass CORS restrictions on device-agnostic environments.
